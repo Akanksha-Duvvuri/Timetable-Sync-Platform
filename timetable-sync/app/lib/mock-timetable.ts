@@ -1,4 +1,4 @@
-import { TimetableSlot } from "@/types";
+import { TimetableSlot } from "../types/index";
 
 // Temporary mock data — replace with a real API call to /api/timetable
 // once Phase 2 (DB schema) is done. Shape matches what that endpoint
