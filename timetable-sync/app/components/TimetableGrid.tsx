@@ -1,4 +1,4 @@
-import { TimetableSlot } from "@/types";
+import { TimetableSlot } from "../types";
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri"];
 

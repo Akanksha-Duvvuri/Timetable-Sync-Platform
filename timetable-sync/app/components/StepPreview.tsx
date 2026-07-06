@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import DecryptText from "@/components/ui/DecryptText";
-import TimetableGrid from "@/components/TimetableGrid";
-import ProviderPicker from "@/components/ProviderPicker";
-import { detectProvider } from "@/lib/device-detect";
-import { MOCK_TIMETABLE } from "@/lib/mock-timetable";
-import { Provider } from "@/types";
+import DecryptText from "../components/ui/DecryptText";
+import TimetableGrid from "../components/TimetableGrid";
+import ProviderPicker from "../components/ProviderPicker";
+import { detectProvider } from "../lib/device-detect";
+import { MOCK_TIMETABLE } from "../lib/mock-timetable";
+import { Provider } from "../types/index";
 
 interface StepPreviewProps {
   rollNumber: string;
