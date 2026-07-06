@@ -5,10 +5,29 @@ import DecryptText from "../app/components/ui/DecryptText";
 import TerminalWindow from "../app/components/ui/TerminalWindow";
 import ModalShell from "../app/components/ModalShell";
 import StepInput from "../app/components/StepInput";
+import StepPreview from "../app/components/StepPreview";
+import { ModalStep, Provider } from "../app/types/index";
 
 export default function Home() {
   const [subReady, setSubReady] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [step, setStep] = useState<ModalStep>("input");
+  const [rollNumber, setRollNumber] = useState("");
+  const [section, setSection] = useState("");
+
+  const closeModal = () => {
+    setModalOpen(false);
+    // reset after the close animation would run, so re-opening starts fresh
+    setStep("input");
+    setRollNumber("");
+    setSection("");
+  };
+
+  const handleSync = (provider: Provider) => {
+    console.log("syncing with", provider, rollNumber, section);
+    setStep("connecting");
+    // next: build StepConnecting + StepSuccess and the real Google/Apple push
+  };
 
   return (
     <>
@@ -22,7 +41,7 @@ export default function Home() {
           padding: "24px",
         }}
       >
-        <TerminalWindow className="glow-border" >
+        <TerminalWindow className="glow-border">
           <div style={{ maxWidth: "480px" }}>
             <p className="text-muted" style={{ fontSize: "13px", marginBottom: "12px" }}>
               {"> "}TIMETABLE_SYNC.exe
@@ -53,13 +72,31 @@ export default function Home() {
       </main>
 
       {modalOpen && (
-        <ModalShell onClose={() => setModalOpen(false)}>
-          <StepInput
-            onContinue={(rollNumber, section) => {
-              console.log("roll:", rollNumber, "section:", section);
-              // next: pass this into the timetable lookup / preview step
-            }}
-          />
+        <ModalShell onClose={closeModal}>
+          {step === "input" && (
+            <StepInput
+              onContinue={(roll, sec) => {
+                setRollNumber(roll);
+                setSection(sec);
+                setStep("preview");
+              }}
+            />
+          )}
+
+          {step === "preview" && (
+            <StepPreview
+              rollNumber={rollNumber}
+              section={section}
+              onBack={() => setStep("input")}
+              onSync={handleSync}
+            />
+          )}
+
+          {step === "connecting" && (
+            <p className="text-muted" style={{ fontSize: "13px" }}>
+              {"> "}connecting... (next step to build)
+            </p>
+          )}
         </ModalShell>
       )}
     </>
