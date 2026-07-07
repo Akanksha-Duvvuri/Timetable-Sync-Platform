@@ -1,6 +1,6 @@
 "use client";
 
-import TerminalWindow from "../../app/components/ui/TerminalWindow";
+import TerminalWindow from "../components/ui/TerminalWindow";
 
 interface ModalShellProps {
   children: React.ReactNode;
@@ -23,7 +23,7 @@ export default function ModalShell({ children, onClose }: ModalShellProps) {
       }}
       onClick={onClose}
     >
-      <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", maxWidth: "480px" }}>
+      <div onClick={(e) => e.stopPropagation()} style={{ width: "70vw", maxWidth: "1000px", maxHeight: "85vh", overflowY: "auto" }}>
         <TerminalWindow className="glow-border" path="student@timetable-sync:~/connect">
           {children}
         </TerminalWindow>
