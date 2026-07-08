@@ -4,8 +4,6 @@ export interface BranchConfig {
   sections: number;
 }
 
-// Order matters for matching — longer codes must be checked before shorter
-// ones that could be a prefix of them (e.g. "BTD" before "BT").
 export const BRANCHES: BranchConfig[] = [
   { code: "VLSI", name: "VLSI", sections: 1 },
   { code: "ICSE", name: "ICSE", sections: 1 },
@@ -77,6 +75,8 @@ export function parseRollNumber(raw: string): ParsedRoll {
 }
 
 export function sectionOptions(branch: BranchConfig): string[] {
-  const letters = ["A", "B", "C", "D"];
-  return letters.slice(0, branch.sections);
+  if (branch.sections === 1) {
+    return [branch.code];
+  }
+  return Array.from({ length: branch.sections }, (_, i) => `${branch.code}${i + 1}`);
 }
