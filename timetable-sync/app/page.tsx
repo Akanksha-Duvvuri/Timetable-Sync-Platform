@@ -78,10 +78,25 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
 
+  const [appleLinks, setAppleLinks] = useState<{ subscribe: string; download: string } | null>(null);
+
   const handleSync = async (provider: Provider) => {
     if (provider === "apple") {
-      setStep("connecting");
-      setSyncError("Apple Calendar sync is coming soon — Google Calendar is fully supported right now.");
+      const parsed = parseRollNumber(rollNumber);
+      if (!parsed.valid || !parsed.branch) {
+        setSyncError("Could not parse roll number");
+        setStep("success");
+        return;
+      }
+      const params = new URLSearchParams({
+        class_name: parsed.branch.name,
+        section,
+      });
+      const host = window.location.host;
+      setAppleLinks({
+        subscribe: `webcal://${host}/api/calendar/apple?${params.toString()}`,
+        download: `/api/calendar/apple?${params.toString()}&download=1`,
+      });
       setStep("success");
       return;
     }
@@ -176,6 +191,27 @@ export default function Home() {
                   {"> "}synced {syncResult.created} classes to your calendar
                   {syncResult.failed > 0 ? ` (${syncResult.failed} failed)` : ""}
                 </p>
+              )}
+              {appleLinks && (
+                <div style={{ marginBottom: "16px" }}>
+                  <p className="text-success" style={{ fontSize: "14px", marginBottom: "12px" }}>
+                    {"> "}your feed is ready
+                  </p>
+                  <a
+                    href={appleLinks.subscribe}
+                    className="prompt-btn"
+                    style={{ display: "block", textAlign: "center", marginBottom: "8px", textDecoration: "none" }}
+                  >
+                    {"> "}subscribe on apple calendar_
+                  </a>
+                  <a
+                    href={appleLinks.download}
+                    className="prompt-btn"
+                    style={{ display: "block", textAlign: "center", textDecoration: "none", opacity: 0.7 }}
+                  >
+                    {"> "}or download .ics_
+                  </a>
+                </div>
               )}
               <button className="prompt-btn" onClick={closeModal}>
                 {"> "}done_
