@@ -20,7 +20,6 @@ export default function StepInput({ onContinue }: StepInputProps) {
   const showError = rollNumber.length === 11 && !parsed.valid;
   const sections = parsed.valid && parsed.branch ? sectionOptions(parsed.branch) : [];
 
-  // auto-select the only section when a branch has just one
   if (parsed.valid && sections.length === 1 && section !== sections[0]) {
     setSection(sections[0]);
   }
