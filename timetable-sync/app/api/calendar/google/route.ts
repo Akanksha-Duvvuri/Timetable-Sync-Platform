@@ -7,9 +7,13 @@ import { pushSlotsToGoogleCalendar } from "@/lib/google-calendar";
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
   const accessToken = (session as any)?.accessToken;
+  const sessionError = (session as any)?.error;
 
-  if (!accessToken) {
-    return NextResponse.json({ error: "Not signed in with Google" }, { status: 401 });
+  if (sessionError === "RefreshAccessTokenError" || !accessToken) {
+    return NextResponse.json(
+      { error: "Your Google session expired — please sign in again" },
+      { status: 401 }
+    );
   }
 
   const { className, section } = await req.json();
