@@ -22,7 +22,6 @@
 
 ---
 
-archlinux% tree -L 3
 .
 ├── README.md
 └── timetable-sync
