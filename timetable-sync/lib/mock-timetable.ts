@@ -1,6 +1,8 @@
 import { TimetableSlot } from "@/types";
 
-
+// Temporary mock data — replace with a real API call to /api/timetable
+// once Phase 2 (DB schema) is done. Shape matches what that endpoint
+// will eventually return.
 export const MOCK_TIMETABLE: TimetableSlot[] = [
   { id: "1", subject: "Data Structures", teacher: "Dr. Rao", day_of_week: 0, start_time: "09:00", end_time: "09:50" },
   { id: "2", subject: "Discrete Math", teacher: "Prof. Iyer", day_of_week: 0, start_time: "10:00", end_time: "10:50" },

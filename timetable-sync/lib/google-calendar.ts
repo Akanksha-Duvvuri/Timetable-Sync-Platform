@@ -44,7 +44,8 @@ export async function pushSlotsToGoogleCalendar(
         },
       });
       created += 1;
-    } catch {
+    } catch (err) {
+      console.error("Google Calendar insert failed:", err);
       failed += 1;
     }
   }
