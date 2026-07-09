@@ -23,7 +23,7 @@ export default function ModalShell({ children, onClose }: ModalShellProps) {
       }}
       onClick={onClose}
     >
-      <div onClick={(e) => e.stopPropagation()} style={{ width: "70vw", maxWidth: "1000px", maxHeight: "85vh", overflowY: "auto" }}>
+      <div onClick={(e) => e.stopPropagation()} className="modal-container">
         <TerminalWindow className="glow-border" path="student@timetable-sync:~/connect">
           {children}
         </TerminalWindow>

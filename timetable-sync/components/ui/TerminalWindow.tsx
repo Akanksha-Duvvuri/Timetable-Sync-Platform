@@ -17,7 +17,7 @@ export default function TerminalWindow({
         <div className="terminal-dot" />
         <span className="terminal-path">{path}</span>
       </div>
-      <div style={{ padding: "40px" }}>{children}</div>
+      <div className="terminal-body">{children}</div>
     </div>
   );
 }

@@ -78,7 +78,7 @@ export default function StepInput({ onContinue }: StepInputProps) {
           <p className="text-muted" style={{ fontSize: "13px", marginBottom: "12px" }}>
             {"> "}select section
           </p>
-          <div style={{ display: "flex", gap: "8px", marginBottom: "24px" }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "24px" }}>
             {sections.map((s) => (
               <button
                 key={s}

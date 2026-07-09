@@ -30,6 +30,7 @@ export default function Home() {
     setSection("");
     setSyncResult(null);
     setSyncError(null);
+    setAppleLinks(null);
   };
 
   const pushToGoogle = async (roll: string, sec: string) => {
@@ -128,7 +129,7 @@ export default function Home() {
               {"> "}TIMETABLE_SYNC.exe
             </p>
 
-            <h1 style={{ fontSize: "28px", fontWeight: 600, margin: "0 0 16px" }}>
+            <h1 style={{ fontSize: "clamp(22px, 6vw, 28px)", fontWeight: 600, margin: "0 0 16px" }}>
               <DecryptText
                 text="your schedule, decrypted"
                 speed={25}
