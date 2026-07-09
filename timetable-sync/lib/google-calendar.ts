@@ -16,7 +16,7 @@ function nextDateForWeekday(dayOfWeek: number): string {
 }
 
 function toHMS(t: string): string {
-  return t.length === 5 ? `${t}:00` : t; // "08:25" -> "08:25:00", leaves "08:25:00" untouched
+  return t.length === 5 ? `${t}:00` : t;
 }
 
 export async function pushSlotsToGoogleCalendar(
