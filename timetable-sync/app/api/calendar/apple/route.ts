@@ -13,6 +13,10 @@ function nextDateForWeekday(dayOfWeek: number): string {
   return target.toISOString().split("T")[0].replace(/-/g, "");
 }
 
+function toHMS(t: string): string {
+  return t.length === 5 ? `${t}:00` : t;
+}
+
 function icsEscape(text: string): string {
   return text.replace(/,/g, "\\,").replace(/;/g, "\\;");
 }
@@ -55,8 +59,8 @@ export async function GET(req: NextRequest) {
 
   for (const slot of slots ?? []) {
     const date = nextDateForWeekday(slot.day_of_week);
-    const start = `${date}T${slot.start_time.replace(/:/g, "")}00`;
-    const end = `${date}T${slot.end_time.replace(/:/g, "")}00`;
+    const start = `${date}T${toHMS(slot.start_time).replace(/:/g, "")}`;
+    const end = `${date}T${toHMS(slot.end_time).replace(/:/g, "")}`;
 
     lines.push(
       "BEGIN:VEVENT",

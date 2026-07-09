@@ -15,6 +15,10 @@ function nextDateForWeekday(dayOfWeek: number): string {
   return target.toISOString().split("T")[0];
 }
 
+function toHMS(t: string): string {
+  return t.length === 5 ? `${t}:00` : t; // "08:25" -> "08:25:00", leaves "08:25:00" untouched
+}
+
 export async function pushSlotsToGoogleCalendar(
   accessToken: string,
   slots: TimetableSlot[]
@@ -29,8 +33,8 @@ export async function pushSlotsToGoogleCalendar(
 
   for (const slot of slots) {
     const date = nextDateForWeekday(slot.day_of_week);
-    const startDateTime = `${date}T${slot.start_time}:00`;
-    const endDateTime = `${date}T${slot.end_time}:00`;
+    const startDateTime = `${date}T${toHMS(slot.start_time)}`;
+    const endDateTime = `${date}T${toHMS(slot.end_time)}`;
 
     try {
       await calendar.events.insert({
@@ -44,8 +48,11 @@ export async function pushSlotsToGoogleCalendar(
         },
       });
       created += 1;
-    } catch (err) {
-      console.error("Google Calendar insert failed:", err);
+    } catch (err: any) {
+      console.error(
+        "Google Calendar insert failed:",
+        JSON.stringify(err?.response?.data ?? err?.message ?? err, null, 2)
+      );
       failed += 1;
     }
   }
