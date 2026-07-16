@@ -1,6 +1,8 @@
 # Timetable Sync Platform
 
-> Enter your roll number and class, your time table will get synced to the calendar you use
+> Enter your roll number and class, your timetable gets synced to the calendar you already use.
+
+**Live:** https://timetable-sync-platform.vercel.app/
 
 **Stack:** Next.js · Supabase (PostgreSQL) · NextAuth · Google Cloud (OAuth 2.0) · ICS/webcal (RFC 5545)
 
@@ -9,62 +11,60 @@
 ## Features
 
 | Feature |
-|--- |
-| Roll number + class lookup | 
-| Timetable preview before syncing | 
-| Google Calendar OAuth + recurring event push |
-| Apple Calendar via webcal/ICS|
-| Admin panel — manage classes, students, slots |
+|---|
+| Roll number + class lookup (branch/section auto-detected from roll number format) |
+| Timetable preview before syncing |
+| Google Calendar OAuth |
+| Apple Calendar via live webcal subscription feed |
+| Admin panel — manage classes, students, and timetable slots |
 
 ---
 
-**Design language:** Dark background · Terminal sort of feel
+**Design language:** Dark background · Terminal sort of aesthetic · Decrypt-reveal text animation
 
 ---
 
-.
-├── README.md
-└── timetable-sync
-    ├── app
-    │   ├── admin
-    │   ├── api
-    │   ├── components
-    │   ├── globals.css
-    │   ├── layout.tsx
-    │   ├── lib
-    │   ├── page.tsx
-    │   └── types
-    ├── components
-    │   ├── Modal
-    │   ├── ProviderPicker.tsx
-    │   ├── Providers.tsx
-    │   ├── TimetableGrid.tsx
-    │   └── ui
-    ├── lib
-    │   ├── auth-options.ts
-    │   ├── device-detect.ts
-    │   ├── google-calendar.ts
-    │   ├── mock-timetable.ts
-    │   ├── roll-parser.ts
-    │   └── supabase.ts
-    ├── public
-    │   ├── file.svg
-    │   ├── globe.svg
-    │   ├── next.svg
-    │   ├── vercel.svg
-    │   └── window.svg
-    └── types
-        └── index.ts
+## Project Structure
 
+```
+timetable-sync/
+├── app/
+│   ├── admin/            
+│   ├── api/
+│   │   ├── auth/         
+│   │   ├── timetable/    
+│   │   └── calendar/
+│   │       ├── google/  
+│   │       └── apple/   
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx
+├── components/
+│   ├── Modal/           
+│   ├── ui/              
+│   ├── ProviderPicker.tsx
+│   ├── Providers.tsx
+│   └── TimetableGrid.tsx
+├── lib/
+│   ├── auth-options.ts   
+│   ├── device-detect.ts  
+│   ├── google-calendar.ts
+│   ├── roll-parser.ts   
+│   └── supabase.ts
+└── types/
+    └── index.ts
+```
 
-## 🗄️ Database Schema
+---
+
+## Database Schema
 
 ```sql
-classes            → id, name, section
-students           → id, roll_number, class_id, name
-timetable_slots    → id, class_id, subject, teacher, day_of_week, start_time, end_time
-calendar_connections → id, student_id, provider, access_token,
-                       refresh_token, token_expiry, calendar_event_ids (jsonb)
+classes              → id, name, section
+students              → id, roll_number, class_id, name
+timetable_slots       → id, class_id, subject, teacher, day_of_week, start_time, end_time
+calendar_connections  → id, student_id, provider, access_token,
+                         refresh_token, token_expiry, calendar_event_ids (jsonb)
 ```
 
 ---
@@ -72,20 +72,34 @@ calendar_connections → id, student_id, provider, access_token,
 ## Environment Variables
 
 ```bash
-# Supabase
-SUPABASE_URL=
-SUPABASE_ANON_KEY=
+# Supabase 
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+
+# Admin panel password
+NEXT_PUBLIC_ADMIN_PASSWORD=
 
 # NextAuth
 NEXTAUTH_SECRET=
 NEXTAUTH_URL=
 
-# Google
+# Google OAuth
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
+```
 
-# Admin (to update the timetable easily)
-ADMIN_PASSWORD=
+---
+
+## Getting Started
+
+```bash
+npm install
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+To edit timetable data, log in at `/admin` with the password set in `NEXT_PUBLIC_ADMIN_PASSWORD`.
 ```---
 
 
