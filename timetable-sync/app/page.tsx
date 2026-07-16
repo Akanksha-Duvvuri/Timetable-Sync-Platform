@@ -62,7 +62,7 @@ export default function Home() {
     setStep("success");
   };
 
-  // after a Google sign-in redirect, resume the pending sync automatically
+  // after a Google sign-in redirect, resume the pending sync automatically. 
   useEffect(() => {
     if (status !== "authenticated") return;
 
@@ -76,7 +76,7 @@ export default function Home() {
     setSection(pSection);
     setModalOpen(true);
     pushToGoogle(pRoll, pSection);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps.
   }, [status]);
 
   const [appleLinks, setAppleLinks] = useState<{ subscribe: string; download: string } | null>(null);
